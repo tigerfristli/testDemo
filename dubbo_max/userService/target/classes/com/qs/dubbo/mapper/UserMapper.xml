@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.qs.dubbo.mapper.UserMapper">
+	
+	<!-- 添加用户信息 -->
+	<insert id="addUser" parameterType="com.qs.dubbo.model.User">
+		insert into u_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="nick != null">
+				nick,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+		</trim>
+		values
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="nick != null">
+				#{nick, jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone, jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email, jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address, jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<!-- 根据用户id修改用户信息 -->
+	<update id="updateUser" parameterType="com.qs.dubbo.model.User">
+		update u_user
+		<set>
+			<if test="nick != null">
+				nick = #{nick, jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone, jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email, jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address, jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id, jdbcType=INTEGER}
+	</update>
+	
+	<!-- 根据用户id删除用户 -->
+	<delete id="deleteUser" parameterType="java.lang.Integer">
+    	delete from u_user where id = #{id, jdbcType=INTEGER}
+    </delete>
+	
+	<!-- 根据Id查询用户信息 -->
+	<select id="getUserById" resultType="com.qs.dubbo.model.User" parameterType="java.lang.Integer">
+		select * from u_user where id = #{id, jdbcType=INTEGER}
+	</select>
+	
+	<!-- 查询所有用户信息 -->
+	<select id="getAllUser" resultType="com.qs.dubbo.model.User">
+		select * from u_user
+	</select>
+</mapper>
